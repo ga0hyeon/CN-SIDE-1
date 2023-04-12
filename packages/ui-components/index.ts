@@ -1,3 +1,4 @@
-import useCounterStore from "./src/store/useCountStore";
+import useCountStore from "./src/store/useCountStore";
+import { Button } from "./src/components/Button";
 
-export { useCounterStore };
+export { useCountStore, Button };
