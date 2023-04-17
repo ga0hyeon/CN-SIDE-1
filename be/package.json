@@ -1,0 +1,22 @@
+{
+  "name": "chromeside-be",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "yarn start:local",
+    "start:local": "NODE_ENV=local nodemon --exec node --loader ts-node/esm src/index.ts",
+    "start:prod": "NODE_ENV=prod nodemon --exec node --loader ts-node/esm src/index.ts",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "socket.io": "^4.6.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/socket.io": "^3.0.2",
+    "nodemon": "^2.0.22",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
+  }
+}

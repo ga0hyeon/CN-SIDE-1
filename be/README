@@ -1,0 +1,20 @@
+# ChromeSide BE
+
+## 서버를 기동하는 법
+아래 명령어를 사용하여 서버를 시작하세요. 로컬에서는 7070 포트에 서버가 기동됩니다.
+```ts
+yarn start
+```
+서버를 띄운 뒤 발생하는 파일 수정사항은 nodemon에 의해 감지되며, 매번 서버가 새로고침 됩니다 :)
+
+
+## 환경변수 
+dotenv를 사용하여 관리합니다. 환경별로 필요한 변수를 .env 파일에 정의하고 아래와 같이 참조하여 사용하세요.
+```ts
+process.env.PORT
+```
+
+## 테스트
+Postman에서 socket.io 요청을 Beta로 제공하고 있습니다. 탭을 여러개 띄우는 것 만으로 chat도 테스트가 가능합니다.
+[초대링크](https://app.getpostman.com/join-team?invite_code=519c1f58a48dd38bd908b944a860b18d&target_code=d6d15cf9446c082c44a4ce290e5b3f27)를 통해 Collection을 공유해봐요.
+
