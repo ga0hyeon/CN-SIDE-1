@@ -4,10 +4,16 @@
 >
 > > tech : monorepo, (React, zustand, storybook, tailwind), NodeJS(Express, Socket.io)
 
+## packages
+
+- chromeside-board (메인 로비)
+- ui-components (공용 컴포넌트 및 유틸 관리)
+- halli-galli (할리갈리 게임 패키지)
+
 ## Usage
 
 ```
-npx lerna bootstrap --hoist
+yarn
 yarn build
 ```
 
@@ -26,31 +32,31 @@ yarn create v1.22.17
 success Installed "create-vite@4.2.0" with binaries:
       - create-vite
       - cva
-✔ Project name: … [packageName]
+✔ Project name: chromeside-board [packageName]
 ✔ Select a framework: › React
 ✔ Select a variant: › TypeScript
 
-Scaffolding project in /Users/jasper/Desktop/Workspaces/CN-SIDE-1/packages/main-component...
+Scaffolding project in /Users/jasper/Desktop/Workspaces/CN-SIDE-1/packages/chromeside-board...
 
 Done. Now run:
 
-  cd main-component
+  cd chromeside-board
   yarn
   yarn dev
 
 ✨  Done in 24.56s.
 ```
 
-## run dev(main-component)
+## run dev
 
 ```
-cd packages/main-component
+cd packages/chromeside-board
 yarn dev
 ```
 
-## run storybook(main-component)
+## run storybook(ui-components)
 
 ```
-cd packages/main-component
+cd packages/ui-components
 yarn storybook
 ```
