@@ -1,32 +1,31 @@
-import express from 'express';
-import http from 'http';
 import { config } from 'dotenv';
-import { Server } from 'socket.io';
-
+import { connectHandler } from './handlers/connect';
+import { disconnectHandler } from './handlers/disconnect';
+import { syncHandler } from './handlers/sync';
 
 config({ path: `./${process.env.NODE_ENV}.env` });
 
-const app = express();
-const server = http.createServer(app);
+import { WebSocketServer } from "ws";
 
-app.get('/', (req, res) => {
-  res.send('<h1>Hello world</h1>');
+const mockContext = {} as any;
+const mockCallback = (error?: Error | string | null, result?: any) => {}
+
+const server = new WebSocketServer({ port: +process.env.PORT });
+
+server.on("connection", (socket) => {
+  connectHandler({body: {action : "$connect"}}, mockContext,  mockCallback);
+
+  socket.on("message", (data) => {
+    const packet = JSON.parse(data.toString());
+
+    switch (packet.type) {
+      case "sync":
+        syncHandler({body: {action : packet.type, data: packet.data}}, mockContext,  mockCallback);
+        break;
+    }
+  });
 });
 
-server.listen(process.env.PORT, () => {
-  console.log(`listening on *:${process.env.PORT}`);
-});
-
-const io = new Server(server)
-
-io.on('connection', (socket) => {
-  console.log('a user connected');
-  
-  socket.on('disconnect', () => {
-    console.log('user disconnected');
-  });
- 
-  socket.on('chat', (msg) => {
-    io.emit('chat', msg)
-  });
+server.on("close", () => {
+  disconnectHandler({body: {action : "$disconnect"}}, mockContext,  mockCallback);
 });
