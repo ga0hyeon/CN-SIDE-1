@@ -6,15 +6,16 @@ import { darkerRgb } from "../utils/ColorUtil";
 interface PixelButtonProps {
   primary?: boolean;
   backgroundColor?: string;
+  fontSize? : number;
   label: string;
   onClick?: () => void;
 }
 
-const PixelizeButton = styled.button<{ backgroundColor?: string }>`
-  font-size: 1.2em;
+const PixelizeButton = styled.button<{ backgroundColor?: string, fontSize?:number }>`
+  font-size: ${({ fontSize }) => fontSize!=undefined?`${fontSize}px`:"24px"};
   font-family: "Neo Dgm", cursive;
   padding: 0 20px;
-  height: 70px;
+  height: "70px";
   background: ${({ backgroundColor }) => backgroundColor || "#06c1de"};
   border: 0px;
   position: relative;
@@ -58,15 +59,17 @@ const PixelizeButton = styled.button<{ backgroundColor?: string }>`
 
 export const PixelButton = ({
   backgroundColor,
+  fontSize,
   label,
   onClick,
   ...props
 }: PixelButtonProps) => {
-  console.log(darkerRgb(backgroundColor || "", 0.1));
+  
   return (
     <PixelizeButton
       type="button"
       className={["btn"].join(" ")}
+      fontSize={fontSize}
       backgroundColor={backgroundColor}
       {...props}
       onClick={() => onClick && onClick()}

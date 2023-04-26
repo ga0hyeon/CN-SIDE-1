@@ -7,7 +7,6 @@ interface PixelPngIconButtonProps {
   size?: number;
   imageUrl?: string;
   backgroundColor?: string;
-  label: string;
   onClick?: () => void;
 }
 
@@ -72,7 +71,6 @@ export const PixelPngIconButton = ({
   size,
   imageUrl,
   backgroundColor,
-  label,
   onClick,
   ...props
 }: PixelPngIconButtonProps) => {
