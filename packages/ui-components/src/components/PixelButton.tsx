@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import "../assets/font/font.css";
 import { darkerRgb } from "../utils/ColorUtil";
 
 interface PixelButtonProps {
@@ -8,12 +9,6 @@ interface PixelButtonProps {
   label: string;
   onClick?: () => void;
 }
-const Container = styled.div`
-  top: 50%;
-  left: 50%;
-  position: absolute;
-  transform: translate(-50%, -50%);
-`;
 
 const PixelizeButton = styled.button<{ backgroundColor?: string }>`
   font-size: 1.2em;
@@ -69,16 +64,14 @@ export const PixelButton = ({
 }: PixelButtonProps) => {
   console.log(darkerRgb(backgroundColor || "", 0.1));
   return (
-    <Container>
-      <PixelizeButton
-        type="button"
-        className={["btn"].join(" ")}
-        backgroundColor={backgroundColor}
-        {...props}
-        onClick={() => onClick && onClick()}
-      >
-        {label}
-      </PixelizeButton>
-    </Container>
+    <PixelizeButton
+      type="button"
+      className={["btn"].join(" ")}
+      backgroundColor={backgroundColor}
+      {...props}
+      onClick={() => onClick && onClick()}
+    >
+      {label}
+    </PixelizeButton>
   );
 };

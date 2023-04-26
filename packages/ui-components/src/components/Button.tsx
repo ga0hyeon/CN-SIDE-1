@@ -1,5 +1,4 @@
 import React from "react";
-import "./font.css";
 import "./button.css";
 import { useCountStore } from "../..";
 

@@ -1,5 +1,6 @@
 import React, { ReactComponentElement } from "react";
 import styled from "styled-components";
+import "../assets/font/font.css";
 import { darkerRgb } from "../utils/ColorUtil";
 
 interface PixelPngIconButtonProps {
@@ -9,12 +10,6 @@ interface PixelPngIconButtonProps {
   label: string;
   onClick?: () => void;
 }
-const Container = styled.div`
-  top: 50%;
-  left: 50%;
-  position: absolute;
-  transform: translate(-50%, -50%);
-`;
 
 const PixelizeButton = styled.button<{
   backgroundColor?: string;
@@ -82,17 +77,15 @@ export const PixelPngIconButton = ({
   ...props
 }: PixelPngIconButtonProps) => {
   return (
-    <Container>
-      <PixelizeButton
-        type="button"
-        className={["btn"].join(" ")}
-        backgroundColor={backgroundColor}
-        size={size}
-        {...props}
-        onClick={() => onClick && onClick()}
-      >
-        <Icon src={imageUrl} size={size} />
-      </PixelizeButton>
-    </Container>
+    <PixelizeButton
+      type="button"
+      className={["btn"].join(" ")}
+      backgroundColor={backgroundColor}
+      size={size}
+      {...props}
+      onClick={() => onClick && onClick()}
+    >
+      <Icon src={imageUrl} size={size} />
+    </PixelizeButton>
   );
 };
