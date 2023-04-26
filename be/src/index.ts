@@ -3,7 +3,7 @@ import { connectHandler } from './handlers/connect';
 import { disconnectHandler } from './handlers/disconnect';
 import { syncHandler } from './handlers/sync';
 
-config({ path: `./${process.env.NODE_ENV}.env` });
+config({ path: `./env.${process.env.NODE_ENV}` });
 
 import { WebSocketServer } from "ws";
 

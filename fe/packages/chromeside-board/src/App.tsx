@@ -1,8 +1,8 @@
-import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 import { useCountStore, Button as UIButton } from "ui-components";
+import ChatSample from "./components/ChatSample";
 
 function App() {
   const { count, countUp, resetCount } = useCountStore((state: any) => {
@@ -34,6 +34,7 @@ function App() {
       <p className="read-the-docs">
         <button onClick={() => resetCount()}>reset</button>
       </p>
+      <ChatSample />
     </div>
   );
 }

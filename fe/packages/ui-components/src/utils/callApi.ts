@@ -1,23 +1,22 @@
-const socket = new WebSocket("ws://localhost:3000");
+export const connect = (url: string, handler: (message: string) => void) => {
+  const socket = new WebSocket(url);
 
-export const connect = ()=>{
+  socket.addEventListener("message", ({ data }) => {
+    handler(data)
+  });
 
-socket.addEventListener("open", () => {
-  // send a message to the server
-  socket.send(JSON.stringify({
-    type: "hello from client",
-    content: [ 3, "4" ]
-  }));
-});
+  socket.addEventListener("close", () => {
+    socket.close()
+  });
 
-// receive a message from the server
-socket.addEventListener("message", ({ data }) => {
-  const packet = JSON.parse(data);
+  return socket;
+}
 
-  switch (packet.type) {
-    case "hello from server":
-      // ...
-      break;
-  }
-});
+export const sendMessage = (socket: WebSocket, message: string) => {
+  const body = JSON.stringify({
+    action: "sendmessage",
+    message
+  });
+
+  socket.send(body)
 }

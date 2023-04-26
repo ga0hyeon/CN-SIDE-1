@@ -13,3 +13,15 @@ dotenv를 사용하여 관리합니다. 환경별로 필요한 변수를 .env �
 ```ts
 process.env.PORT
 ```
+
+## 디렉토리 구조
+|-- src
+    |-- app.ts
+    |-- config
+    |-- controllers
+    |-- middlewares
+    |-- models
+    |-- routes
+    |-- services
+    |-- utils
+    |-- index.ts
