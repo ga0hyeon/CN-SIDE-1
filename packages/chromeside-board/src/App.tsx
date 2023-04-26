@@ -23,16 +23,16 @@ function App() {
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
-      <h1>Vite + React + zustand</h1>
+      <div className="text-2xl text-pink-300">Vite + React + zustand</div>
       <div className="card">
-        <button onClick={() => countUp()}>count is {count}</button>
+        <button className="bg-pink-300 hover:bg-pink-350 text-white border-gray-400 font-bold py-1 px-4 rounded-full m-3" onClick={() => countUp()}>count is {count}</button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
-        <UIButton label=""></UIButton>
+        <UIButton label="" primary={true} backgroundColor="#75c6dc"></UIButton>
       </div>
       <p className="read-the-docs">
-        <button onClick={() => resetCount()}>reset</button>
+        <button className="bg-pink-300 hover:bg-pink-350 text-white border-gray-400 font-bold py-1 px-4 rounded-full" onClick={() => resetCount()}>reset</button>
       </p>
     </div>
   );
