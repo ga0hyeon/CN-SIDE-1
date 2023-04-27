@@ -1,6 +1,11 @@
 # ChromeSide BE
 
-## 서버를 기동하는 법
+## 기동 방법
+1. DynamoDB 띄우기
+be/infra 하위에서 `docker-compose up`을 수행해서 로컬에 dynamoDB를 띄웁니다.
++) virtualBox 를 사용하시는 분들은 포트포워딩 (8000 포트) 을 잊지 말고 해주세요. 
+
+2. 서버 띄우기
 아래 명령어를 사용하여 서버를 시작하세요. 로컬에서는 7070 포트에 서버가 기동됩니다.
 ```ts
 yarn start
@@ -8,20 +13,10 @@ yarn start
 서버를 띄운 뒤 발생하는 파일 수정사항은 nodemon에 의해 감지되며, 매번 서버가 새로고침 됩니다 :)
 
 
-## 환경변수 
-dotenv를 사용하여 관리합니다. 환경별로 필요한 변수를 .env 파일에 정의하고 아래와 같이 참조하여 사용하세요.
-```ts
-process.env.PORT
-```
-
 ## 디렉토리 구조
 |-- src
-    |-- app.ts
-    |-- config
-    |-- controllers
-    |-- middlewares
-    |-- models
-    |-- routes
-    |-- services
-    |-- utils
-    |-- index.ts
+    |-- handlers : lambda 핸들러 모음
+        |-- connect.ts
+        |-- disconnect.ts
+        |-- sendMessage.ts
+    |-- index.ts : local 서버 기동을 위한 코드

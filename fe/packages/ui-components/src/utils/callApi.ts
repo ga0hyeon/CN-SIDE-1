@@ -2,21 +2,19 @@ export const connect = (url: string, handler: (message: string) => void) => {
   const socket = new WebSocket(url);
 
   socket.addEventListener("message", ({ data }) => {
-    handler(data)
-  });
-
-  socket.addEventListener("close", () => {
-    socket.close()
+    handler(data);
   });
 
   return socket;
-}
+};
 
 export const sendMessage = (socket: WebSocket, message: string) => {
   const body = JSON.stringify({
     action: "sendmessage",
-    message
+    message,
   });
 
-  socket.send(body)
-}
+  console.log(body);
+
+  socket.send(body);
+};
