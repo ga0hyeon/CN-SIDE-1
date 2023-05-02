@@ -12,5 +12,8 @@
     "bootstrap:hoist": "npx lerna bootstrap --hoist",
     "build": "lerna run build",
     "clean": "lerna clean"
+  },
+  "dependencies": {
+    "react-router-dom": "^6.10.0"
   }
 }

@@ -1,7 +1,7 @@
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
-import { useCountStore, Button as UIButton } from "ui-components";
+import { useCountStore, PixelButton } from "ui-components";
 import ChatSample from "./components/ChatSample";
 
 function App() {
@@ -25,14 +25,21 @@ function App() {
       </div>
       <h1>Vite + React + zustand</h1>
       <div className="card">
-        <button onClick={() => countUp()}>count is {count}</button>
+        {/* <button onClick={() => countUp()}>count is {count}</button> */}
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
-        <UIButton label=""></UIButton>
+        <PixelButton
+          onClick={() => countUp()}
+          label={`count is ${count}`}
+        ></PixelButton>
       </div>
       <p className="read-the-docs">
-        <button onClick={() => resetCount()}>reset</button>
+        <PixelButton
+          onClick={() => resetCount()}
+          label="reset"
+          backgroundColor="#f19d01"
+        ></PixelButton>
       </p>
       <ChatSample />
     </div>
