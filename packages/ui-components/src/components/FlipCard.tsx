@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { RefObject, forwardRef, useImperativeHandle, useState } from "react";
 import styled from "styled-components";
 import "../assets/font/font.css";
 
@@ -10,7 +10,7 @@ interface FlipCardProps {
   title?: string;
   titleColor?: string;
   secondary?: string;
-  type: "circle" | "square";
+  type?: "circle" | "square";
   onFront?: () => void;
   onBack?: () => void;
   onFlip?: () => void;
@@ -21,27 +21,30 @@ const Container = styled.div<{
   backColor?: string;
   titleColor?: string;
   type?: "circle" | "square";
+  width?: number;
 }>`
-  width: 100px;
-  height: 100px;
-  position: relative;
+  width: 156px;
+  height: 156px;
   perspective: 1100px;
-  margin: 2rem;
+  
 
-  .card {
-    width: 100%;
-    height: 100%;
-    position: relative;
+  .flip-card {
+    position:absolute;
+    padding:13px;
+    width: 100px;
+    height: 100px;
     transition: 1s;
     transform-style: preserve-3d;
     font-family: "Neo Dgm", cursive;
   }
 
-  .front,
-  .back {
+  .flip-front,
+  .flip-back {
+    margin:-26px;
     position: absolute;
     width: 100%;
     height: 100%;
+    padding: 10px;
     backface-visibility: hidden;
     display: flex;
     justify-content: center;
@@ -52,23 +55,23 @@ const Container = styled.div<{
     box-shadow: 0.375em 0.375em 0 0 rgba(15, 28, 63, 0.125);
   }
 
-  .front {
+  .flip-front {
     background: ${({ frontColor }) =>
       frontColor != undefined ? frontColor : "white"};
   }
 
-  .back {
+  .flip-back {
     background: ${({ backColor }) =>
       backColor != undefined ? backColor : "#f0f0f0"};
     transform: rotateY(180deg);
   }
 
-  .flip {
+  .flip-fliped {
     transform: rotateY(180deg);
   }
 `;
 
-export const FlipCard = ({
+export const FlipCard = forwardRef(({
   type,
   front,
   frontColor,
@@ -81,9 +84,9 @@ export const FlipCard = ({
   onBack,
   onFlip,
   ...props
-}: FlipCardProps) => {
-  console.log(frontColor);
+}: FlipCardProps, ref) => {  
   const [flip, setFlip] = useState(false);
+  
   const handleClick = () => {
     setFlip(!flip);
 
@@ -93,21 +96,29 @@ export const FlipCard = ({
     onFlip && onFlip();
   };
 
+  const doFlip = () => {
+    handleClick();
+  }
+
+  useImperativeHandle(ref, () => ({
+    doFlip,
+  }));
+
   return (
     <Container
-      className={[flip ? "flip" : ""].join(" ")}
       type={type}
       frontColor={frontColor}
       backColor={backColor}
       titleColor={titleColor}
+      onClick={() => handleClick()}
     >
       <div
-        className={["card", flip ? "flip" : ""].join(" ")}
-        onClick={() => handleClick()}
+        className={["flip-card", flip ? "flip-fliped" : ""].join(" ")}
+        
       >
-        <div className="front">{front}</div>
-        <div className="back">{back}</div>
+        <div className="flip-front">{front}</div>
+        <div className="flip-back">{back}</div>
       </div>
     </Container>
   );
-};
+});

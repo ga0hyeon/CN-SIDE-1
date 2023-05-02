@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, createRef, useRef } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
-import { useCountStore, PixelButton } from "ui-components";
+import { useCountStore, PixelButton, FlipCard } from "ui-components";
 
 function App() {
   const { count, countUp, resetCount } = useCountStore((state: any) => {
@@ -12,6 +12,17 @@ function App() {
       resetCount: state.resetCount,
     };
   });
+  const childRef = useRef<{doFlip: () => void}>(null);
+
+  const doFlip = () => {
+    if(childRef.current != undefined) {
+       childRef.current.doFlip();
+    }
+  }
+
+  setInterval(() => {
+    doFlip();
+  }, 2000)
 
   return (
     <div className="App">
@@ -41,6 +52,58 @@ function App() {
           backgroundColor="#f19d01"
         ></PixelButton>
       </p>
+      
+      <table>
+        <tr>
+          <td>
+            <FlipCard
+              ref={childRef}
+              type={'circle'}
+              front={<h1>앞면</h1>}
+              titleColor={"#000"}
+              frontColor={"tomato"}
+              back = {<h1>뒷면</h1>}
+              backColor={"royalblue"}
+              />
+          </td>
+          <td>
+            <FlipCard
+              type={'circle'}
+              front={<h1>앞면</h1>}
+              titleColor={"#000"}
+              frontColor={"tomato"}
+              back = {<h1>뒷면</h1>}
+              backColor={"royalblue"}
+              />
+          </td>
+        </tr>
+        <tr>
+        <td>
+            <FlipCard
+              type={'circle'}
+              front={<h1>앞면</h1>}
+              titleColor={"#000"}
+              frontColor={"tomato"}
+              back = {<h1>뒷면</h1>}
+              backColor={"royalblue"}
+              />
+          </td>
+          <td>
+            <FlipCard
+              type={'circle'}
+              front={<h1>앞면</h1>}
+              titleColor={"#000"}
+              frontColor={"tomato"}
+              back = {<h1>뒷면</h1>}
+              backColor={"royalblue"}
+              />
+          </td>
+        </tr>
+      </table>
+      
+        
+      
+      
     </div>
   );
 }
