@@ -4,5 +4,5 @@ import { PixelButton } from "./src/components/PixelButton";
 import { PixelPngIconButton } from "./src/components/PixelPngIconButton";
 import { EnterButton } from "./src/components/EnterButton";
 
-export { useCountStore, Button, PixelButton, PixelPngIconButton };
+export { useCountStore, Button, PixelButton, PixelPngIconButton, EnterButton };
 
