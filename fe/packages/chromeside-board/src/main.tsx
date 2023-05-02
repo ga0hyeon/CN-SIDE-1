@@ -13,6 +13,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       <Routes>
         <Route path={"/"} element={<EnterPage />}></Route>
         <Route path={"/game"} element={<GamePage />}></Route>
+        <Route path={"/test"} element={<App />}></Route>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,
