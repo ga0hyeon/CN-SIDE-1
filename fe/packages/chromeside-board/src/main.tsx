@@ -6,6 +6,7 @@ import EnterPage from './page/EnterPage'
 import GamePage from './page/GamePage'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
+console.log(import.meta.env.VITE_WSS_URL)
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <BrowserRouter>
