@@ -7,9 +7,6 @@ interface FlipCardProps {
   frontColor?: string;
   back?: React.ReactNode;
   backColor?: string;
-  title?: string;
-  titleColor?: string;
-  secondary?: string;
   type?: "circle" | "square";
   onFront?: () => void;
   onBack?: () => void;
@@ -19,7 +16,6 @@ interface FlipCardProps {
 const Container = styled.div<{
   frontColor?: string;
   backColor?: string;
-  titleColor?: string;
   type?: "circle" | "square";
   width?: number;
 }>`
@@ -77,9 +73,6 @@ export const FlipCard = forwardRef(({
   frontColor,
   back,
   backColor,
-  title,
-  titleColor,
-  secondary,
   onFront,
   onBack,
   onFlip,
@@ -109,7 +102,6 @@ export const FlipCard = forwardRef(({
       type={type}
       frontColor={frontColor}
       backColor={backColor}
-      titleColor={titleColor}
       onClick={() => handleClick()}
     >
       <div

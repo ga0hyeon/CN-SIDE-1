@@ -6,9 +6,13 @@ import { FlipCard } from "./FlipCard";
 export default {
   title: "Example/FlipCard",
   component: FlipCard,
-
   argTypes: {
-    backgroundColor: { control: "color" },
+    type: {
+      options: ["circle", "square"],
+      control: { type: 'radio' },
+    } ,
+    frontColor: { control: "color" },
+    backColor: { control: "color" },
   },
 } as ComponentMeta<typeof FlipCard>;
 
@@ -19,7 +23,6 @@ const Template: ComponentStory<typeof FlipCard> = (args) => (
 export const Basic = Template.bind({});
 Basic.args = {
   front: <h1>앞면</h1>,
-  titleColor: "#000",
   frontColor: "tomato",
   back: <h1>뒷면</h1>,
   backColor: "royalblue",
