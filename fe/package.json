@@ -1,0 +1,19 @@
+{
+  "name": "root",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "lerna": "^6.6.1"
+  },
+  "scripts": {
+    "bootstrap": "lerna bootstrap",
+    "bootstrap:hoist": "npx lerna bootstrap --hoist",
+    "build": "lerna run build",
+    "clean": "lerna clean"
+  },
+  "dependencies": {
+    "react-router-dom": "^6.10.0"
+  }
+}
