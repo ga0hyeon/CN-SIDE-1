@@ -44,6 +44,6 @@ const handler: Handler = async (event, context) => {
   }
 
   return { statusCode: 200 };
-};
+}
 
 export default handler;
