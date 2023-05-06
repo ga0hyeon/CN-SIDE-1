@@ -21,6 +21,10 @@ server.on("connection", (socket) => {
   connectHandler({ body: { action: "$connect" } }, mockContext, mockCallback);
 
   socket.on("message", (data) => {
+    if (process.env.NODE_ENV === "local") {
+      mockContext.socket = socket;
+    }
+
     let packet: any = null;
 
     try {

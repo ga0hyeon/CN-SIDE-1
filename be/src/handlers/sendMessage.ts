@@ -5,11 +5,14 @@ import { WebSocketServer } from "ws";
 const ddb = new AWS.DynamoDB.DocumentClient();
 
 const handler: Handler = async (event, context) => {
-  console.log(event);
   const message = JSON.parse(event.body).message;
 
   if (process.env.NODE_ENV === "local") {
-    ((context as any).server as WebSocketServer).clients.forEach(client => client.send(message))
+    ((context as any).server as WebSocketServer).clients.forEach(client => {
+      if ((context as any).socket != client) {
+        client.send(message)
+      }
+    })
   } else {
     let connections;
     try {

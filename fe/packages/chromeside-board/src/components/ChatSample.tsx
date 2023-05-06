@@ -5,11 +5,7 @@ const ChatSample = () => {
   const [chatList, setChatList] = useState<string[]>([]);
   const [chat, setChat] = useState<string>("");
 
-  const PROD_URL = "wss://dvad2r3s39.execute-api.ap-northeast-2.amazonaws.com/production";
-  const LOCAL_URL = "ws://localhost:1234"
-
   const messageHandler = useCallback((message: string) => {
-    console.log("메시지 도착 >>>", message)
     setChatList(prev => [...prev, message])
   }, [])
 
@@ -19,7 +15,7 @@ const ChatSample = () => {
 
   const { sendMessage, status } = useWebSocket(
     {
-      url: LOCAL_URL,
+      url: import.meta.env.VITE_WSS_URL || "",
       onMessage: messageHandler,
       onClose: closeHandler
     }
