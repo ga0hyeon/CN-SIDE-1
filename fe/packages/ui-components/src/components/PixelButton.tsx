@@ -15,7 +15,7 @@ const PixelizeButton = styled.button<{ backgroundColor?: string, fontSize?:numbe
   font-size: ${({ fontSize }) => fontSize!=undefined?`${fontSize}px`:"24px"};
   font-family: "Neo Dgm", cursive;
   padding: 0 20px;
-  height: "70px";
+  height: 70px;
   background: ${({ backgroundColor }) => backgroundColor || "#06c1de"};
   border: 0px;
   position: relative;
