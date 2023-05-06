@@ -20,7 +20,7 @@ const handler: Handler = async (event, context) => {
     let connections;
     try {
       connections = await ddb
-        .scan({ TableName: "chromeSide-board-ConnectionsTable-NWDEFXP6BQTA" })
+        .scan({ TableName: process.env.table })
         .promise();
     } catch (err) {
       return {
