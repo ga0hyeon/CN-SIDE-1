@@ -9,11 +9,14 @@ const handler: Handler = async (event, context) => {
 
   if (process.env.NODE_ENV === "local") {
     ((context as any).server as WebSocketServer).clients.forEach(client => {
+      // NOTE : 아래 조건이 없으면 나를 포함한 모든 클라이언트에게 메시지를 전달합니다.
       if ((context as any).socket != client) {
         client.send(message)
       }
     })
   } else {
+    // NOTE : AWS Lambda 환경에서는 현재 붙어있는 모든 연결에 대한 정보를 가져올 수 있는 방법이 없기 때문에
+    //        DynamoDB에 연결 정보를 저장하고, 이를 통해 연결된 모든 클라이언트에게 메시지를 전달합니다.
     let connections;
     try {
       connections = await ddb
@@ -31,6 +34,7 @@ const handler: Handler = async (event, context) => {
     });
 
     const sendMessages = connections.Items.map(async ({ connectionId }) => {
+      // NOTE : 아래 조건이 없으면 나를 포함한 모든 클라이언트에게 메시지를 전달합니다.
       if (connectionId !== event.requestContext.connectionId) {
         try {
           await callbackAPI

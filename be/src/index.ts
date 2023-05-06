@@ -1,10 +1,7 @@
-import { config } from "dotenv";
 import connectHandler from "./handlers/connect";
 import disconnectHandler from "./handlers/disconnect";
 import sendMessageHandler from "./handlers/sendMessage";
 import defaultHandler from "./handlers/default";
-
-config({ path: `./env.${process.env.NODE_ENV}` });
 
 import { WebSocketServer } from "ws";
 
