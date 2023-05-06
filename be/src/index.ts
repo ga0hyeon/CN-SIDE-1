@@ -11,9 +11,13 @@ import { WebSocketServer } from "ws";
 const mockContext = {} as any;
 const mockCallback = (error?: Error | string | null, result?: any) => { };
 
-const server = new WebSocketServer({ port: 1234 });
+export const server = new WebSocketServer({ port: 1234 });
 
 server.on("connection", (socket) => {
+  if (process.env.NODE_ENV === "local") {
+    mockContext.server = server;
+  }
+
   connectHandler({ body: { action: "$connect" } }, mockContext, mockCallback);
 
   socket.on("message", (data) => {
@@ -25,20 +29,14 @@ server.on("connection", (socket) => {
       console.log("error >>>", data, "error : ", err)
     }
 
-    console.log("socket.on message >>> 메시지 내용 : ", packet)
-
     if (packet) {
       switch (packet.action) {
         case "sendmessage":
-          socket.emit("message", JSON.stringify({ action: "emit-sendmessage", data: packet.message }))
-          socket.send(packet.message)
-          // socket.send(
-          //   JSON.stringify({ action: "sendmessage", data: packet.message }))
-          // sendMessageHandler(
-          //   { body: { action: packet.type, data: packet.message } },
-          //   mockContext,
-          //   mockCallback
-          // );
+          sendMessageHandler(
+            { "body": `{ "action": "${packet.action}", "message": "${packet.message}" }` },
+            mockContext,
+            mockCallback
+          );
           break;
         default:
           defaultHandler(

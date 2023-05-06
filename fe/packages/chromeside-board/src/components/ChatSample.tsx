@@ -9,6 +9,7 @@ const ChatSample = () => {
   const LOCAL_URL = "ws://localhost:1234"
 
   const messageHandler = useCallback((message: string) => {
+    console.log("메시지 도착 >>>", message)
     setChatList(prev => [...prev, message])
   }, [])
 
