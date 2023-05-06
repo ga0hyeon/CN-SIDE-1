@@ -81,7 +81,7 @@ export const FlipCard = forwardRef(({
   const [flip, setFlip] = useState(false);
   
   const handleClick = () => {
-    setFlip(!flip);
+    setFlip(prev => !prev);
 
     if (flip) onFront && onFront();
     else onBack && onBack();

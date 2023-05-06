@@ -16,7 +16,7 @@ function App() {
   const childRef = useRef<{doFlip: () => void}>(null);
 
   const doFlip = () => {
-    if(childRef.current != undefined) {
+    if(childRef.current) {
        childRef.current.doFlip();
     }
   }
