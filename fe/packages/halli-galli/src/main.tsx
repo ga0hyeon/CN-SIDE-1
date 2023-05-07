@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
-import './tailwind.css'
+import './../../../tailwind.css'
 import './index.css'
 import EnterPage from './page/EnterPage'
 import GamePage from './page/GamePage'
