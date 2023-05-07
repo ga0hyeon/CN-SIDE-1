@@ -1,7 +1,7 @@
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
-import { useCountStore, PixelButton, FlipCard } from "ui-components";
+import { useCountStore, PixelButton, FlipCard, Timer } from "ui-components";
 import ChatSample from "./components/ChatSample";
 import { useRef } from "react";
 
@@ -98,6 +98,8 @@ function App() {
           </td>
         </tr>
       </table>
+
+      <Timer onTimeout={():void=>{console.log('test!!')}} />
     </div>
   );
 }
