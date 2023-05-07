@@ -5,6 +5,7 @@ import './index.css'
 import EnterPage from './page/EnterPage'
 import GamePage from './page/GamePage'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import TestPage from './page/TestPage'
 
 console.log(import.meta.env.VITE_WSS_URL)
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
@@ -13,7 +14,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       <Routes>
         <Route path={"/"} element={<EnterPage />}></Route>
         <Route path={"/game"} element={<GamePage />}></Route>
-        <Route path={"/test"} element={<App />}></Route>
+        <Route path={"/test"} element={<TestPage/>}></Route>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,
