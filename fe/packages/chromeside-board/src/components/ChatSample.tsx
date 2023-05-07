@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-// import { connect } from "ui-components";
 
 const ChatSample = () => {
   const [chatList, setChatList] = useState<string[]>([]);
