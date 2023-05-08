@@ -1,49 +1,32 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useState } from "react";
+import useWebSocket, { Status } from "../hooks/UseWebSocket";
 
 const ChatSample = () => {
   const [chatList, setChatList] = useState<string[]>([]);
-  const connection = useRef<WebSocket>();
-
   const [chat, setChat] = useState<string>("");
 
-  const sendMessage = useCallback((curChat: string) => {
-    console.log(curChat);
-    if (curChat && connection.current) {
-      connection.current?.send(
-        JSON.stringify({
-          action: "sendmessage",
-          message: curChat,
-        })
-      );
+  const messageHandler = useCallback((message: string) => {
+    setChatList(prev => [...prev, message])
+  }, [])
 
-      setChat("");
+  const closeHandler = useCallback(() => {
+    alert("연결 끊어짐")
+  }, [])
+
+  const { sendMessage, status } = useWebSocket(
+    {
+      url: import.meta.env.VITE_WSS_URL || "",
+      onMessage: messageHandler,
+      onClose: closeHandler
     }
-  }, []);
-
-  useEffect(() => {
-    if (!connection.current) {
-      connection.current = new WebSocket(
-        "wss://dvad2r3s39.execute-api.ap-northeast-2.amazonaws.com/production"
-      );
-
-      connection.current.addEventListener("message", ({ data }) => {
-        console.log(data);
-        setChatList((prev) => [...prev, data]);
-      });
-
-      return () => {
-        if (connection.current?.readyState === 1) {
-          connection.current?.close();
-        }
-      };
-    }
-  }, []);
+  )
 
   return (
     <div>
       {chatList.map((chat) => {
         return <div>{chat}</div>;
       })}
+      <div>{status.toString()}</div>
       <div>
         <input
           value={chat}

@@ -1,7 +1,7 @@
 import { Handler } from "aws-lambda";
 import AWS from "aws-sdk";
 
-const ddb = new AWS.DynamoDB.DocumentClient();
+const ddb = new AWS.DynamoDB.DocumentClient({ endpoint: process.env.NODE_ENV === "local" ? new AWS.Endpoint('http://localhost:8000') : undefined });
 
 const handler: Handler = async function (event, context) {
   try {
