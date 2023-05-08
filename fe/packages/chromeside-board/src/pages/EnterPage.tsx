@@ -2,6 +2,7 @@ import { useState } from 'react'
 import '../App.css'
 import { EnterButton as EnterButton } from "ui-components";
 import { useNavigate } from "react-router-dom";
+import ChatSample from '../components/ChatSample';
 
 function EnterPage() {
     const movePage = useNavigate();
@@ -17,6 +18,7 @@ function EnterPage() {
                     onClick={() => {
                         movePage('/game')
                     }}></EnterButton>
+                    <ChatSample />
             </div>
         </div>
     )
