@@ -1,4 +1,4 @@
-import React, { forwardRef, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import "../assets/font/font.css";
 
@@ -19,43 +19,65 @@ const TimerLabel = styled.div<{
 }>`
   font-family: "Neo Dgm", cursive;
   color: ${({ color }) => color};
-  font-size: ${({ size }) => size ? `${size}px`:"24px"};
+  font-size: ${({ size }) => `${size}px`};
   opacity: ${({ opacity }) => opacity};
   position: absolute;
-  top:0;right:0;bottom:0;left:0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   display: flex;
-  align-items: ${({ position }) => position==="center" ? "center": position==="top"?"flex-start":"flex-end"};
+  z-index: -1;
+  align-items: ${({ position }) =>
+    position === "center"
+      ? "center"
+      : position === "top"
+      ? "flex-start"
+      : "flex-end"};
   display: -webkit-flex;
   -webkit-align-item: center;
   -webkit-justify-content: center;
 `;
 
-export const Timer = forwardRef(({
+export const Timer = ({
   time = 3,
   color = "white",
   opacity = 1,
-  size = 30,
+  size = 100,
   position = "top",
   onTimeout,
   ...props
-}: TimerProps, ref) => {  
+}: TimerProps) => {
   const [remainTime, setRemainTime] = useState<number>(time);
-  
+
   useEffect(() => {
-    if(remainTime > 0){
+    if (remainTime > 0) {
       const timerId = setTimeout(() => {
-        setRemainTime(prev => prev-1);
+        setRemainTime((prev) => prev - 1);
       }, 1000);
       return () => clearTimeout(timerId);
-    } else{
+    } else {
       onTimeout();
     }
   }, [remainTime]);
-  
+
+  useEffect(() => {
+    setRemainTime(time);
+  }, [time]);
+
   return (
     <>
-      { remainTime>0 &&
-        <TimerLabel color="white" opacity={0.7} size={120} position="top">{remainTime}</TimerLabel> } 
+      {remainTime > 0 && (
+        <TimerLabel
+          color={color}
+          opacity={opacity}
+          size={size}
+          position={position}
+          {...props}
+        >
+          {remainTime}
+        </TimerLabel>
+      )}
     </>
   );
-});
+};
