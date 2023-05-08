@@ -1,5 +1,4 @@
 import { useRef, useState } from "react";
-// import "../App.css";
 
 interface Card {
   type: string;
@@ -20,8 +19,8 @@ const CARD: Card[] = [];
 
 const HalliGalli = () => {
   const [nickname, setNickname] = useState("");
-  const [playerCards, setPlayerCards] = useState<PlayerCard[]>([]);
   const [players, setPlayers] = useState<Player[]>([]);
+  const [playerCards, setPlayerCards] = useState<PlayerCard[]>([]);
   const [openedCard, setOpendCard] = useState<Card[][]>([[], [], [], []]);
   const [playerState, setPlayerState] = useState<boolean[]>([true, true, true, true]);
   const [activePlayer, setActivePlayer] = useState(0);
@@ -49,7 +48,7 @@ const HalliGalli = () => {
   const handleJoin = () => {
     if(players.length < 4) {
       console.log("JOIN ", nickname);
-      // const temp = [...players];
+      
       setPlayers( prev => [...prev, {
           nickname: nickname,
           index: prev.length
@@ -60,7 +59,6 @@ const HalliGalli = () => {
     } else {
       console.log("ROOM is Full");
     }
-    
   };
 
   const handleStart = () => {
@@ -101,6 +99,8 @@ const HalliGalli = () => {
         return prev;
       });
     } else {
+      // emit activePlayer lose
+
       setPlayerState(prev => {
         prev[activePlayer] = false;
         return prev;
@@ -124,7 +124,6 @@ const HalliGalli = () => {
       if(lastCard) {
         sum[CARD_TYPE.findIndex(x=> x===lastCard.type)] += lastCard.num;
       }
-
     });
 
     if(sum.filter(x => x ===5).length > 0) {
@@ -139,17 +138,17 @@ const HalliGalli = () => {
       copy[playerIndex].cards.push(...award);
       
       setPlayerCards(copy);
-
       setOpendCard([[],[],[],[]]);
     } else {
       // Panalty
       const copy = [...playerCards];
 
       copy.map((pc, i) => {
-        if(i != playerIndex && playerState[playerIndex] ) {
+        if(i != playerIndex && playerState[i] ) {
           pc.cards.push(...copy[playerIndex].cards.splice(0,1));
         }
       })
+
       setPlayerCards(copy);
 
       console.log("Panalty");
