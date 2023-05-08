@@ -2,8 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
 import './index.css'
-import EnterPage from './page/EnterPage'
-import GamePage from './page/GamePage'
+import EnterPage from './pages/EnterPage'
+import GamePage from './pages/GamePage'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 console.log(import.meta.env.VITE_WSS_URL)
