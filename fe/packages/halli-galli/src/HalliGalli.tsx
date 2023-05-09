@@ -1,4 +1,5 @@
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
+import useWebSocket, { Status } from "chromeside-board/src/hooks/UseWebSocket";
 
 interface Card {
   type: string;
@@ -12,11 +13,6 @@ interface PlayerCard {
   player: Player;
   cards: Card[];
 }
-
-const CARD_COUNT = [1, 1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 5];
-const CARD_TYPE = ["Strawberry", "Banana", "Cherry", "Plum"];
-const CARD: Card[] = [];
-
 const HalliGalli = () => {
   const [nickname, setNickname] = useState("");
   const [players, setPlayers] = useState<Player[]>([]);
@@ -24,143 +20,134 @@ const HalliGalli = () => {
   const [openedCard, setOpendCard] = useState<Card[][]>([[], [], [], []]);
   const [playerState, setPlayerState] = useState<boolean[]>([true, true, true, true]);
   const [activePlayer, setActivePlayer] = useState(0);
-  const turn = useRef(0);
+  const [turn, setTurn] = useState(0);
 
-  const cardShuffle = (cards: Card[]) => {
-    return cards.sort(() => Math.random() - 0.5);
-  };
-
-  const cardSplitter = (cards: Card[], players: Player[], size: number) => {
-    const arr = [];
-
-    for (let i = 0; i < cards.length; i += size) {
-      arr.push({
-        player: players[i / size],
-        cards: cards.slice(i, i + size),
-      });
-    }
-
-    return arr;
-  };
-  
+  const messageHandle = useCallback((message: string) => {
+    const {type, data} = JSON.parse(message);
     
-
-  const handleJoin = () => {
-    if(players.length < 4) {
-      console.log("JOIN ", nickname);
-      
-      setPlayers( prev => [...prev, {
-          nickname: nickname,
-          index: prev.length
-        }]
-      )
-  
-      setNickname("");
-    } else {
-      console.log("ROOM is Full");
+    switch(type) {
+      case "join":
+        handleJoin(data);
+        break;
+      case "start":
+        handleStart(data);
+        break;
+      case "open":
+        handleOpen(data);
+        break;
+      case "ring":
+        handleRing(data);
+        break;
+      case "success":
+        handleSuccess(data);
+        break;
+      case "penalty":
+        handlePanalty(data);
+        break;
+      case "lose":
+        handleLose(data);
+        break;
     }
-  };
 
-  const handleStart = () => {
-    CARD_COUNT.forEach((k, i) => {
-      for (let j = 0; j < players.length; j++) {
-        CARD.push({
-          type: CARD_TYPE[j],
-          num: k,
-        });
-      }
-    });
+  }, [])
 
-    const shuffledCards = cardShuffle(cardShuffle(CARD));
+  const handleJoin = (data:any) => {
+    console.log("===JOIN", data);
+    setPlayers(data);
+  }
+  const handleStart = (data:any) => {
+    console.log("===START", data);
+    const {playerCards, activePlayer, turn} = data;
 
-    setPlayerCards(cardSplitter(shuffledCards, players, 14));
-    setActivePlayer(turn.current % 4);
+    setPlayerCards(playerCards);
+    setActivePlayer(activePlayer)
+    setTurn(turn+1);
+  }
+  const handleOpen = (data:any) => {
+    console.log("===OPEN", data);
+    const {playerCards, openedCard, activePlayer, turn} = data;
 
-    console.log("START");
-  };
+    setOpendCard(openedCard);
+    setPlayerCards(playerCards);
+    setActivePlayer(activePlayer)
+    setTurn(turn+1);
+  }
 
-  const handleOpen = () => {
-    console.log(players[activePlayer].nickname + "'s card open");
-    console.log("OPEN", playerCards);
+  const handleRing = (data:any) => {
+    console.log("===RING", data);
 
-    const pc = playerCards[activePlayer];
+    console.log(`${data.clickPlayer.nickname}님이 종을 눌렀습니다.`);
+  }
 
-    if(pc.cards.length > 0) {
-      const card = pc.cards.splice(0, 1)[0];
+  const handleSuccess = (data:any) => {
+    console.log("===SUCCESS", data);
+    const {playerCards, openedCard} = data;
 
-      setOpendCard((prev) => {
-        const newCardList = [...prev];
-        newCardList[activePlayer] = [...newCardList[activePlayer], card];
-        return newCardList;
-      });
-  
-      setPlayerCards((prev) => {
-        prev[activePlayer] = pc;
-        return prev;
-      });
-    } else {
-      // emit activePlayer lose
+    setPlayerCards(playerCards);
+    setOpendCard(openedCard);    
+  }
 
-      setPlayerState(prev => {
-        prev[activePlayer] = false;
-        return prev;
-      })
-    }
+  const handlePanalty = (data:any) => {
+    console.log("===PANALTY", data);
+    const {playerCards} = data;
     
-    turn.current++;
+    setPlayerCards(playerCards);
+  }
 
-    setActivePlayer(turn.current % 4);
+  const handleLose = (data:any) => {
+    const {playerState, activePlayer, turn} = data;
+
+    setPlayerState(playerState);
+    setActivePlayer(activePlayer)
+    setTurn(turn+1);
+  }
+
+  const closeHandle = useCallback(() => {
+    alert("연결 끊어짐")
+  }, [])
+
+  const { sendMessage, status } = useWebSocket(
+    {
+      url: import.meta.env.VITE_WSS_URL || "",
+      onMessage: messageHandle,
+      onClose: closeHandle
+    }
+  )
+
+  const handleClickJoin = () => {
+    sendMessage("halligalli", JSON.stringify({
+      type: "join",
+      nickname:nickname
+    }));
   };
 
-  const handleBell = (playerIndex:number) => {
-    console.log(players[playerIndex].nickname + " touch bell");
+  const handleClickStart = () => {
+    sendMessage("halligalli", JSON.stringify({
+      type: "start",
+    }));
+  };
 
-    // emit ring
-    const sum = [0,0,0,0];
-    
-    openedCard.map((cards, index) => {
-      let lastCard:Card = cards[cards.length-1];
-      
-      if(lastCard) {
-        sum[CARD_TYPE.findIndex(x=> x===lastCard.type)] += lastCard.num;
-      }
-    });
+  const handleClickOpen = (playerIndex:number) => {
+    sendMessage("halligalli", JSON.stringify({
+      type: "open",
+      player: players.find(x=>x.index===playerIndex)
+    }));
+  };
 
-    if(sum.filter(x => x ===5).length > 0) {
-      // Success
-      let award:Card[] = [];
-      
-      openedCard.map((cards, i) => {
-        award.push(...cards);
-      });
-
-      const copy = [...playerCards];
-      copy[playerIndex].cards.push(...award);
-      
-      setPlayerCards(copy);
-      setOpendCard([[],[],[],[]]);
-    } else {
-      // Panalty
-      const copy = [...playerCards];
-
-      copy.map((pc, i) => {
-        if(i != playerIndex && playerState[i] ) {
-          pc.cards.push(...copy[playerIndex].cards.splice(0,1));
-        }
-      })
-
-      setPlayerCards(copy);
-
-      console.log("Panalty");
-    }
+  const handleClickBell = (playerIndex:number) => {
+    sendMessage("halligalli", JSON.stringify({
+      type: "bell",
+      player: players.find(x=>x.index===playerIndex)
+    }));
   }
 
   return (
     <div className="App">
-      <div>turn : {turn.current}</div>
+      <div>socket status : {status.toString()}</div>
+      <div>turn : {turn}</div>
       <div>cards : {playerCards.length}</div>
       <div>
-        activePlayer: {players.length > 0 ? players[activePlayer].nickname : ""}
+        activePlayer: {activePlayer+1}
       </div>
       <br></br>
       {players.map((p, i) => {
@@ -200,13 +187,16 @@ const HalliGalli = () => {
       <label>nickname: </label><input onChange={(e)=> {
         setNickname(e.target.value);
       }} value={nickname}/>
-      <button onClick={() => handleJoin()}>join</button><br/>
-      <button onClick={() => handleStart()}>start</button><br/>
-      <button onClick={() => handleOpen()}>open</button><br/>
-      <button onClick={() => handleBell(0)}>bell0</button>
-      <button onClick={() => handleBell(1)}>bell1</button>
-      <button onClick={() => handleBell(2)}>bell2</button>
-      <button onClick={() => handleBell(3)}>bell3</button><br/>
+      <button onClick={() => handleClickJoin()}>join</button><br/>
+      <button onClick={() => handleClickStart()}>start</button><br/>
+      <button onClick={() => handleClickOpen(0)}>open1</button>
+      <button onClick={() => handleClickOpen(1)}>open2</button>
+      <button onClick={() => handleClickOpen(2)}>open3</button>
+      <button onClick={() => handleClickOpen(3)}>open4</button><br/>
+      <button onClick={() => handleClickBell(0)}>bell0</button>
+      <button onClick={() => handleClickBell(1)}>bell1</button>
+      <button onClick={() => handleClickBell(2)}>bell2</button>
+      <button onClick={() => handleClickBell(3)}>bell3</button><br/>
       <button>ring</button><br/>
       <button
         onClick={() => {
