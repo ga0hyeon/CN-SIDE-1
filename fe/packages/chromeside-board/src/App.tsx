@@ -35,9 +35,10 @@ function App() {
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
-      <h1>Vite + React + zustand</h1>
+      <div className="text-2xl text-pink-300">Vite + React + zustand</div>
       <div className="card">
         {/* <button onClick={() => countUp()}>count is {count}</button> */}
+        <button className="bg-pink-300 hover:bg-pink-350 text-white border-gray-400 font-bold py-1 px-4 rounded-full m-3" onClick={() => countUp()}>count is {count}</button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
@@ -61,7 +62,6 @@ function App() {
               ref={childRef}
               type={'circle'}
               front={<h1>앞면</h1>}
-              titleColor={"#000"}
               frontColor={"tomato"}
               back = {<h1>뒷면</h1>}
               backColor={"royalblue"}
@@ -71,7 +71,6 @@ function App() {
             <FlipCard
               type={'circle'}
               front={<h1>앞면</h1>}
-              titleColor={"#000"}
               frontColor={"tomato"}
               back = {<h1>뒷면</h1>}
               backColor={"royalblue"}
@@ -83,7 +82,6 @@ function App() {
             <FlipCard
               type={'circle'}
               front={<h1>앞면</h1>}
-              titleColor={"#000"}
               frontColor={"tomato"}
               back = {<h1>뒷면</h1>}
               backColor={"royalblue"}
@@ -93,7 +91,6 @@ function App() {
             <FlipCard
               type={'circle'}
               front={<h1>앞면</h1>}
-              titleColor={"#000"}
               frontColor={"tomato"}
               back = {<h1>뒷면</h1>}
               backColor={"royalblue"}
