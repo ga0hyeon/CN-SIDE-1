@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+      "noImplicitAny": true,
+      "outDir": "./build",
+      "esModuleInterop": true
+    },
+    "include": ["src/**/*"],
+    "exclude": ["node_modules"]
+}

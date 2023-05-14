@@ -1,0 +1,11 @@
+{
+    "manifest_version" : 3,
+    "name" : "chromeside-board",
+    "version" : "0.1.0",
+    "action": {
+        "default_icon": { 
+          "16": "images/game.png"
+        },
+        "default_popup": "index.html"
+      }
+}
