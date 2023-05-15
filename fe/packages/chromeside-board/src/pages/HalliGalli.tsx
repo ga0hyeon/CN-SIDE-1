@@ -9,7 +9,7 @@ function HalliGalli() {
 
     return (
         <div className='App'>
-            {/* <div >
+            <div >
                 <div style={{ display: 'flex' }}>
                     <UserSlot position='LEFT_TOP' user={{ userName: "Gamer", profileImage: imgUrl }} />
                     <UserSlot position='RIGHT_TOP' user={{ userName: "Gamer", profileImage: imgUrl }} />
@@ -18,7 +18,7 @@ function HalliGalli() {
                     <UserSlot position='LEFT_BOTTOM' user={{ userName: "Gamer", profileImage: imgUrl }} />
                     <UserSlot position='RIGHT_BOTTOM' user={{ userName: "Gamer", profileImage: imgUrl }} />
                 </div>
-            </div> */}
+            </div>
         </div>
     )
 }
