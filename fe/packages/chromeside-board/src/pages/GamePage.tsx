@@ -7,7 +7,7 @@ function GamePage() {
 
     return (
         <div className='App'>
-            <span>Game Page</span>
+            <span>Game List Page</span>
         </div>
     )
 }

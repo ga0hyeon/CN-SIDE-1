@@ -19,16 +19,20 @@ const Container = styled.div<{
   type?: "circle" | "square";
   width?: number;
 }>`
-  width: 156px;
-  height: 156px;
+  // width: 156px;
+  // height: 156px;
+  width: 100px;
+  height: 145px;
   perspective: 1100px;
   
 
   .flip-card {
     position:absolute;
     padding:13px;
-    width: 100px;
-    height: 100px;
+    // width: 100px;
+    // height: 100px;
+    width: 75px;
+    height: 125px;
     transition: 1s;
     transform-style: preserve-3d;
     font-family: "Neo Dgm", cursive;
@@ -47,18 +51,18 @@ const Container = styled.div<{
     align-items: center;
     color: "#000";
     border-radius: ${({ type }) => (type === "circle" ? "50%" : "0")};
-    border: 0.1875em solid #0f1c3f;
-    box-shadow: 0.375em 0.375em 0 0 rgba(15, 28, 63, 0.125);
+    // border: 0.1875em solid #0f1c3f;
+    // box-shadow: 0.375em 0.375em 0 0 rgba(15, 28, 63, 0.125);
   }
 
   .flip-front {
     background: ${({ frontColor }) =>
-      frontColor != undefined ? frontColor : "white"};
+    frontColor != undefined ? frontColor : "white"};
   }
 
   .flip-back {
     background: ${({ backColor }) =>
-      backColor != undefined ? backColor : "#f0f0f0"};
+    backColor != undefined ? backColor : "#f0f0f0"};
     transform: rotateY(180deg);
   }
 
@@ -77,9 +81,9 @@ export const FlipCard = forwardRef(({
   onBack,
   onFlip,
   ...props
-}: FlipCardProps, ref) => {  
+}: FlipCardProps, ref) => {
   const [flip, setFlip] = useState(false);
-  
+
   const handleClick = () => {
     setFlip(prev => !prev);
 
@@ -106,7 +110,7 @@ export const FlipCard = forwardRef(({
     >
       <div
         className={["flip-card", flip ? "flip-fliped" : ""].join(" ")}
-        
+
       >
         <div className="flip-front">{front}</div>
         <div className="flip-back">{back}</div>
