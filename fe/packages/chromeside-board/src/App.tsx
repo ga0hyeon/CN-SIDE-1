@@ -61,7 +61,6 @@ function App() {
               ref={childRef}
               type={'circle'}
               front={<h1>앞면</h1>}
-              titleColor={"#000"}
               frontColor={"tomato"}
               back = {<h1>뒷면</h1>}
               backColor={"royalblue"}
@@ -71,7 +70,6 @@ function App() {
             <FlipCard
               type={'circle'}
               front={<h1>앞면</h1>}
-              titleColor={"#000"}
               frontColor={"tomato"}
               back = {<h1>뒷면</h1>}
               backColor={"royalblue"}
@@ -83,7 +81,6 @@ function App() {
             <FlipCard
               type={'circle'}
               front={<h1>앞면</h1>}
-              titleColor={"#000"}
               frontColor={"tomato"}
               back = {<h1>뒷면</h1>}
               backColor={"royalblue"}
@@ -93,7 +90,6 @@ function App() {
             <FlipCard
               type={'circle'}
               front={<h1>앞면</h1>}
-              titleColor={"#000"}
               frontColor={"tomato"}
               back = {<h1>뒷면</h1>}
               backColor={"royalblue"}

@@ -1,22 +1,30 @@
-import { useState } from 'react'
+import React, {useState} from 'react';
 import '../App.css'
-import { EnterButton as EnterButton } from "ui-components";
 import { useNavigate } from "react-router-dom";
+import { EnterButton as EnterButton, PixelButton } from "ui-components";
 
 function EnterPage() {
+    const [nickname, setNickname] = useState<string>('홍길동');
     const movePage = useNavigate();
+
+    const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+        setNickname(e.target.value);
+    }
 
     return (
         <div className='App'>
-            <span>Awesome Logo or Name</span>
+            <span className='game-name'>흐르그르</span>
             <div>
-                <input placeholder='Nickname Here'></input>
-            </div>
-            <div>
-                <EnterButton label='' backgroundColor='grey'
-                    onClick={() => {
-                        movePage('/game')
-                    }}></EnterButton>
+                <input className='nickname-input'
+                    placeholder='Nickname Here'
+                    value={nickname}
+                    onChange={handleChange}
+                    name="nickname"
+                    height='800'>
+                </input>
+                <PixelButton label="Enter" onClick={() => {
+                    movePage('/game', { state: { nickname: nickname } })
+                }}></PixelButton>
             </div>
         </div>
     )
