@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import '../App.css'
-import { EnterButton as EnterButton } from "ui-components";
+import { EnterButton as EnterButton, PixelButton } from "ui-components";
 import { useNavigate } from "react-router-dom";
 
 function EnterPage() {
@@ -13,10 +13,9 @@ function EnterPage() {
                 <input placeholder='Nickname Here'></input>
             </div>
             <div>
-                <EnterButton label='' backgroundColor='grey'
-                    onClick={() => {
-                        movePage('/game')
-                    }}></EnterButton>
+                <PixelButton label="Enter" onClick={() => {
+                    movePage('/game')
+                }}></PixelButton>
             </div>
         </div>
     )

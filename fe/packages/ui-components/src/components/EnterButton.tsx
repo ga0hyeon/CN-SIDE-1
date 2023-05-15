@@ -48,7 +48,7 @@ export const EnterButton = ({
       {...props}
       onClick={onClick}
     >
-      Enter
+      {label}
     </button>
   );
 };

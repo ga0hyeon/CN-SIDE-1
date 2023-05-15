@@ -5,6 +5,7 @@ import './index.css'
 import EnterPage from './pages/EnterPage'
 import GamePage from './pages/GamePage'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import HalliGalli from './pages/HalliGalli'
 
 console.log(import.meta.env.VITE_WSS_URL)
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
@@ -14,6 +15,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <Route path={"/"} element={<EnterPage />}></Route>
         <Route path={"/game"} element={<GamePage />}></Route>
         <Route path={"/test"} element={<App />}></Route>
+        <Route path={"/halli"} element={<HalliGalli />}></Route>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,

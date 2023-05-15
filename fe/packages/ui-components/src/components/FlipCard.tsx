@@ -53,12 +53,12 @@ const Container = styled.div<{
 
   .flip-front {
     background: ${({ frontColor }) =>
-      frontColor != undefined ? frontColor : "white"};
+    frontColor != undefined ? frontColor : "white"};
   }
 
   .flip-back {
     background: ${({ backColor }) =>
-      backColor != undefined ? backColor : "#f0f0f0"};
+    backColor != undefined ? backColor : "#f0f0f0"};
     transform: rotateY(180deg);
   }
 
@@ -77,9 +77,9 @@ export const FlipCard = forwardRef(({
   onBack,
   onFlip,
   ...props
-}: FlipCardProps, ref) => {  
+}: FlipCardProps, ref) => {
   const [flip, setFlip] = useState(false);
-  
+
   const handleClick = () => {
     setFlip(prev => !prev);
 
@@ -106,7 +106,7 @@ export const FlipCard = forwardRef(({
     >
       <div
         className={["flip-card", flip ? "flip-fliped" : ""].join(" ")}
-        
+
       >
         <div className="flip-front">{front}</div>
         <div className="flip-back">{back}</div>
