@@ -4,8 +4,8 @@ import App from './App'
 import './index.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import EnterPage from './page/EnterPage'
-import GameListPage from './page/GameListPage'
 import GamePage from './page/GamePage'
+import HalliGalli from './page/HalliGalli'
 
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
@@ -13,8 +13,8 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <BrowserRouter>
       <Routes>
         <Route path={"/"} element={<EnterPage />}></Route>
-        <Route path={"/gameList"} element={<GameListPage />}></Route>
-        <Route path={"/game"} element={<GamePage />}></Route>
+        {/* <Route path={"/game"} element={<GamePage />}></Route> */}
+        <Route path={"/game"} element={<HalliGalli />}></Route>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,
