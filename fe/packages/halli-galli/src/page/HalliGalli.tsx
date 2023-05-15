@@ -11,11 +11,11 @@ function HalliGalli() {
     const imgUrl = "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
 
     return (
-        <div className='App'>
+        <div className='halli-galli'>
         <div style={{ display: 'flex'}}>
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                     <UserSlot position='LEFT_TOP' user={{ userName: nickname, profileImage: imgUrl }} />
-                    <UserSlot position='LEFT_BOTTOM' user={{ userName: '형님', profileImage: imgUrl }} />
+                    <UserSlot position='LEFT_BOTTOM' user={{ userName: '췔췔', profileImage: imgUrl }} />
                 </div>
                 <div style={{ display: 'flex',alignItems: 'center', textAlign: 'center', margin:20}}>
                         <img src={BellImage} width='70'/>

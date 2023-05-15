@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { EnterButton as EnterButton, PixelButton } from "ui-components";
 
 function EnterPage() {
-    const [nickname, setNickname] = useState<string>('홍길동');
+    const [nickname, setNickname] = useState<string>('형님');
     const movePage = useNavigate();
 
     const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {

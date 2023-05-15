@@ -1,9 +1,15 @@
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  /* padding: 2rem; */
   text-align: center;
 }
+
+.halli-galli{
+  background-image: url('./assets/images/desk.jpg');
+  padding:40px 0px;
+}
+
 .game-name {
   font-size: 7em;
   font-family: "Neo Dgm", cursive;

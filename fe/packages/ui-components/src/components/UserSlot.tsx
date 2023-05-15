@@ -34,8 +34,12 @@ const UserInfo = styled.div<{}>`
   .user-name {
     font-size: 1.2rem;
     font-weight: bold;
-    margin-right : 10px;
+    margin-left : 30px;
     font-family: "Neo Dgm", cursive;
+    background-color: rgb(90 142 106);
+    width : 120px;
+    justify-content: center;
+    align-items: center;
   }
 
   .user-profile {
