@@ -4,15 +4,20 @@ import { WebSocketServer } from "ws";
 
 const ddb = new AWS.DynamoDB.DocumentClient();
 
-const handler: Handler = async (event, context) => {
+const handler: Handler = async (event, context) => {  
   const message = JSON.parse(event.body).message;
 
   if (process.env.NODE_ENV === "local") {
     ((context as any).server as WebSocketServer).clients.forEach(client => {
       // NOTE : 아래 조건이 없으면 나를 포함한 모든 클라이언트에게 메시지를 전달합니다.
-      if ((context as any).socket != client) {
-        client.send(message)
-      }
+      // if ((context as any).socket != client) {
+        if(typeof message == "object") {
+          client.send(JSON.stringify(message));
+        } else {
+          client.send(message)
+        }       
+        
+      // } 
     })
   } else {
     // NOTE : AWS Lambda 환경에서는 현재 붙어있는 모든 연결에 대한 정보를 가져올 수 있는 방법이 없기 때문에
