@@ -9,7 +9,7 @@ function hexToRgb(hex: string) {
     : null;
 }
 
-function componentToHex(c) {
+function componentToHex(c: any) {
   var hex = c.toString(16);
   return hex.length == 1 ? "0" + hex : hex;
 }
