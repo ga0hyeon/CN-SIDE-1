@@ -2,7 +2,7 @@ name: test-action
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "feature/20-add-ci-yaml" ]
 
 env:
   AWS_REGION: MY_AWS_REGION     
