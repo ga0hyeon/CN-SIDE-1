@@ -3,18 +3,17 @@ name: test-action
 on:
   push:
     branches: [ "feature/20-add-ci-yaml" ]
-    
+
 jobs:
   test:
     runs-on: ubuntu-20.04
-    env:
-      AWS_CLI_VERSION: "2.10.0"
-    name: AWS CLI 설치 (v${{ env.AWS_CLI_VERSION }})
+    name: AWS CLI 설치 
     steps:
-      - name: AWS CLI 설치 (v${{ env.AWS_CLI_VERSION }})
+      - name: AWS CLI 설치 
         id: install-aws-cli
         uses: unfor19/install-aws-cli-action@master
         with:
-          version: ${{ env.AWS_CLI_VERSION }}
-      - run: aws --version
+          version: 2.10.0
+      - name: AWS CLI 설치 확인
+        run: aws --version
         shell: bash
