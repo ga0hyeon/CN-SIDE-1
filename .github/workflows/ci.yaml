@@ -3,14 +3,12 @@ name: test-action
 on:
   push:
     branches: [ "feature/20-add-ci-yaml" ]
-
-env:
-  AWS_REGION: "MY_AWS_REGION"     
-  AWS_CLI_VERSION: "2.10.0"
-
+    
 jobs:
   test:
     runs-on: ubuntu-20.04
+    env:
+      AWS_CLI_VERSION: "2.10.0"
     name: AWS CLI 설치 (v${{ env.AWS_CLI_VERSION }})
     steps:
       - name: AWS CLI 설치 (v${{ env.AWS_CLI_VERSION }})
