@@ -1,4 +1,4 @@
-name: test-action
+name: BE 빌드 및 배포
 
 on:
   push:
