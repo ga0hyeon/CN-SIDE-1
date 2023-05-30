@@ -1,0 +1,39 @@
+name: test-action
+
+on:
+  push:
+    branches: [ "feature/20-add-ci-yaml" ]
+
+jobs:
+  install-aws-cli:
+    runs-on: ubuntu-20.04
+    name: AWS CLI 설치 및 확인
+    steps:
+      - name: AWS CLI 설치 
+        id: install-aws-cli
+        uses: unfor19/install-aws-cli-action@master
+        with:
+          version: 2.10.0
+      - name: AWS CLI 설치 확인
+        run: aws --version
+        shell: bash
+  configure-aws-credentials:
+    runs-on: ubuntu-20.04
+    name: AWS CLI를 사용하기 위한 AWS Credentials 설정
+    needs: install-aws-cli
+    steps:
+      - name: AWS Credentials 설정
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+  build:
+    runs-on: ubuntu-20.04
+    name: BE 빌드
+    steps:
+      - name: 소스코드 체크아웃
+        uses: actions/checkout@v2
+      - name: BE 의존성 설치
+        run: cd be && yarn install
+        shell: bash
