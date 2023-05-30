@@ -1,96 +1,29 @@
-name: Deploy to AWS Resource
+name: test-action
 
 on:
   push:
-    branches: [ "main" ]
-
-env:
-  AWS_REGION: MY_AWS_REGION            
-
 
 jobs:
-  chromeExtension:
-    name: Build chrome extension and upload result to S3
-    runs-on: ubuntu-latest
-    
+  test:
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        include:
+          - TEST_NAME: "Latest v2"
+            AWS_CLI_VERSION: "2"
+          - TEST_NAME: "Specific v2"
+            AWS_CLI_VERSION: "2.0.30"
+          - TEST_NAME: "Latest v1"
+            AWS_CLI_VERSION: "1"
+          - TEST_NAME: "Specific v1"
+            AWS_CLI_VERSION: "1.18.1"
+          - TEST_NAME: "No Input"
+    name: Test ${{ matrix.TEST_NAME }} ${{ matrix.AWS_CLI_VERSION }}
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-
-    - name: Check diff
-      run: git diff HEAD~1 --name-only | grep -E "packages/chromeside-board|yarn.lock|package.json|lerna.json" || exit 78
-      
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ env.AWS_REGION }}
-
-    - name: Build extension
-      run: cd packages/chromeside-board && yarn install && yarn build
-
-    - name: Upload build result to S3
-      run: aws s3 sync packages/chromeside-board/dist s3://MY_BUCKET_NAME/chromeside-board --delete
-
-  storybook:
-    name: Build storybook and upload result to S3
-    runs-on: ubuntu-latest
-    
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-
-    - name: Check diff
-      run: git diff HEAD~1 --name-only | grep -E "packages/ui-components|package.json|yarn.lock|lerna.json" || exit 78
-      
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ env.AWS_REGION }}
-
-    - name: Build extension
-      run: cd packages/ui-components && yarn install && yarn build-storybook
-
-    - name: Upload build result to S3
-      run: aws s3 sync packages/ui-components/storybook-static s3://STORYBOOK_BUCKET_NAME --delete
- 
- lambda:
-    name: Build be and upload to lambda
-    runs-on: ubuntu-latest
-    
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-
-    - name: Check diff
-      run: git diff HEAD~1 --name-only | grep -E "be/" || exit 78
-      
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ env.AWS_REGION }}
-
-    - name: Install modules
-      run: cd be && yarn install
-      if: ${{ (contains(github.event.head_commit.message, 'be/package.json') || contains(github.event.head_commit.message, 'be/yarn.lock')) }}
-
-    - name: Zip modules for layer upload
-      run: cd be && mkdir nodejs && cp -r .node_modules/* nodejs && zip -r nodejs.zip nodejs
-      if: ${{ (contains(github.event.head_commit.message, 'be/package.json') || contains(github.event.head_commit.message, 'be/yarn.lock')) }}
-
-    - name: Update connect lambda source 
-      run: cd be && zip -r connect.zip connect.ts && aws lambda update-function-code --function-name connect --zip-file fileb://connect.zip
-      if : ${{ (contains(github.event.head_commit.message, 'be/connect.ts')) }}
-
-    - name: Update disconnect lambda source 
-      run: cd be && zip -r disconnect.zip disconnect.ts && aws lambda update-function-code --function-name disconnect --zip-file fileb://disconnect.zip
-      if : ${{ (contains(github.event.head_commit.message, 'be/disconnect.ts')) }}
-
-    - name: Update sync lambda source 
-      run: cd be && zip -r sync.zip sync.ts && aws lambda update-function-code --function-name sync --zip-file fileb://sync.zip
-      if : ${{ (contains(github.event.head_commit.message, 'be/sync.ts')) }}
+      - name: Test ${{ matrix.TEST_NAME }}
+        id: install-aws-cli
+        uses: unfor19/install-aws-cli-action@master
+        with:
+          version: ${{ matrix.AWS_CLI_VERSION }}
+      - run: aws --version
+        shell: bash
