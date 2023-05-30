@@ -25,7 +25,7 @@ const useWebSocket = ({ url, onOpen, onClose, onMessage }: ConnectionRequest) =>
 
     useEffect(() => {
         if (!connection.current) {
-            connection.current = new WebSocket(url);
+            connection.current = new WebSocket("ws://localhost:1234");
 
             connection.current.addEventListener("open", () => {
                 setStatus(Status.OPEN)
@@ -38,6 +38,7 @@ const useWebSocket = ({ url, onOpen, onClose, onMessage }: ConnectionRequest) =>
             });
 
             onMessage && connection.current.addEventListener("message", ({ data }) => {
+                console.log(data);
                 onMessage(data)
             });
 
@@ -49,7 +50,7 @@ const useWebSocket = ({ url, onOpen, onClose, onMessage }: ConnectionRequest) =>
         }
     }, []);
 
-    const sendMessage: (data: string) => SendResult = useCallback((data: string) => {
+    const sendMessage: (action:string, data: string) => SendResult = useCallback((action:string, data: string) => {
         const result: SendResult = {
             status: "ERROR",
             data: null
@@ -58,7 +59,7 @@ const useWebSocket = ({ url, onOpen, onClose, onMessage }: ConnectionRequest) =>
         if (data && connection.current) {
             connection.current?.send(
                 JSON.stringify({
-                    action: "sendmessage",
+                    action: action,
                     message: data,
                 })
             );

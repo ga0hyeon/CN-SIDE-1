@@ -1,9 +1,9 @@
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
-import { useCountStore, PixelButton, FlipCard } from "ui-components";
+import { useCountStore, PixelButton, FlipCard, Timer } from "ui-components";
 import ChatSample from "./components/ChatSample";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 function App() {
   const { count, countUp, resetCount } = useCountStore((state: any) => {
@@ -14,6 +14,7 @@ function App() {
     };
   });
   const childRef = useRef<{doFlip: () => void}>(null);
+  const [time, setTime] = useState<number>(3);
 
   const doFlip = () => {
     if(childRef.current) {
@@ -25,6 +26,10 @@ function App() {
     doFlip();
   }, 2000)
 
+  const increaseTime = () => {
+    setTime((prev)=>prev+1);
+  }
+
   return (
     <div className="App">
       <div>
@@ -35,9 +40,8 @@ function App() {
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
-      <h1>Vite + React + zustand</h1>
+      <div className="text-2xl text-pink-300">Vite + React + zustand</div>
       <div className="card">
-        {/* <button onClick={() => countUp()}>count is {count}</button> */}
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
@@ -54,6 +58,8 @@ function App() {
         ></PixelButton>
       </p>
       <ChatSample />
+      <button className="bg-pink-300 hover:bg-pink-350 text-white border-gray-400 font-bold py-1 px-4 rounded-full m-3" onClick={increaseTime}>time+1</button>
+      <Timer time={time} color="white" opacity={0.5} size={180} position="bottom" onTimeout={():void=>{console.log('test!!'); resetCount();}} />
       <table>
         <tr>
           <td>
@@ -61,7 +67,6 @@ function App() {
               ref={childRef}
               type={'circle'}
               front={<h1>앞면</h1>}
-              titleColor={"#000"}
               frontColor={"tomato"}
               back = {<h1>뒷면</h1>}
               backColor={"royalblue"}
@@ -71,7 +76,6 @@ function App() {
             <FlipCard
               type={'circle'}
               front={<h1>앞면</h1>}
-              titleColor={"#000"}
               frontColor={"tomato"}
               back = {<h1>뒷면</h1>}
               backColor={"royalblue"}
@@ -83,7 +87,6 @@ function App() {
             <FlipCard
               type={'circle'}
               front={<h1>앞면</h1>}
-              titleColor={"#000"}
               frontColor={"tomato"}
               back = {<h1>뒷면</h1>}
               backColor={"royalblue"}
@@ -93,7 +96,6 @@ function App() {
             <FlipCard
               type={'circle'}
               front={<h1>앞면</h1>}
-              titleColor={"#000"}
               frontColor={"tomato"}
               back = {<h1>뒷면</h1>}
               backColor={"royalblue"}
@@ -101,6 +103,7 @@ function App() {
           </td>
         </tr>
       </table>
+
     </div>
   );
 }

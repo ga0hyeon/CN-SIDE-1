@@ -1,15 +1,16 @@
 import connectHandler from "./handlers/connect";
 import disconnectHandler from "./handlers/disconnect";
 import sendMessageHandler from "./handlers/sendMessage";
+import halliGalliHandler from "./handlers/halliGalli"
 import defaultHandler from "./handlers/default";
 
 import { WebSocketServer } from "ws";
+// import halliGalliHandler from "./halliGalli/halliGalli";
 
 const mockContext = {} as any;
 const mockCallback = (error?: Error | string | null, result?: any) => { };
 
 export const server = new WebSocketServer({ port: 1234 });
-
 server.on("connection", (socket) => {
   if (process.env.NODE_ENV === "local") {
     mockContext.server = server;
@@ -18,6 +19,7 @@ server.on("connection", (socket) => {
   connectHandler({ body: { action: "$connect" } }, mockContext, mockCallback);
 
   socket.on("message", (data) => {
+    console.log("message", data.toString());
     if (process.env.NODE_ENV === "local") {
       mockContext.socket = socket;
     }
@@ -39,6 +41,13 @@ server.on("connection", (socket) => {
             mockCallback
           );
           break;
+        case "halligalli":
+            halliGalliHandler(
+              { "body": data.toString() },
+              mockContext,
+              mockCallback
+            );
+            break;
         default:
           defaultHandler(
             {
