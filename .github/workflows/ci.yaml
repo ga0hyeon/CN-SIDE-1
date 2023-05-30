@@ -2,6 +2,10 @@ name: test-action
 
 on:
   push:
+    branches: [ "main" ]
+
+env:
+  AWS_REGION: MY_AWS_REGION     
 
 jobs:
   test:
