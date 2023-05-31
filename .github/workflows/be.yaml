@@ -5,7 +5,7 @@ on:
     branches: [ "feature/20-add-ci-yaml" ]
 
 jobs:
-  install-aws-cli:
+  pre-deploy:
     runs-on: ubuntu-20.04
     name: AWS CLI 설치 및 확인
     steps:
@@ -17,9 +17,9 @@ jobs:
       - name: AWS CLI 설치 확인
         run: aws --version
         shell: bash
-  configure-aws-credentials:
+  deploy:
     runs-on: ubuntu-20.04
-    name: AWS CLI를 사용하기 위한 AWS Credentials 설정
+    name: BE 빌드 및 배포
     needs: install-aws-cli
     steps:
       - name: AWS Credentials 설정
@@ -28,11 +28,6 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
-  build:
-    runs-on: ubuntu-20.04
-    name: BE 빌드
-    needs: configure-aws-credentials
-    steps:
       - name: Checkout
         uses: actions/checkout@v2
       - name: BE 의존성 설치
