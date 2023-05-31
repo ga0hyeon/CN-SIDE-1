@@ -50,3 +50,4 @@ jobs:
         run: aws lambda update-function-configuration --function-name chromeSide-board-ConnectHandler2FFD52D8-uTN7lKb7paOp --layers arn:aws:lambda:ap-northeast-2:123456789012:layer:chromeSide-lambdaLayer:${{ steps.latest-layer-version.outputs.VERSION }} --region ap-northeast-2
         # if: ${{ (contains(github.event.head_commit.message, 'be/package.json') || contains(github.event.head_commit.message, 'be/yarn.lock')) }}
         shell: bash
+
