@@ -7,7 +7,7 @@ on:
 jobs:
   pre-deploy:
     runs-on: ubuntu-20.04
-    name: AWS CLI 설치 및 확인
+    name: PRE DEPLOY
     steps:
       - name: AWS CLI 설치 
         id: install-aws-cli
@@ -19,7 +19,7 @@ jobs:
         shell: bash
   deploy:
     runs-on: ubuntu-20.04
-    name: BE 빌드 및 배포
+    name: DEPLOY
     needs: pre-deploy
     steps:
       - name: AWS Credentials 설정
@@ -33,11 +33,20 @@ jobs:
       - name: BE 의존성 설치
         run: cd be && yarn install
         shell: bash
-      - name: (변경사항이 있는 경우) Lambda Layer 압축
+      - name: Layer 압축
         run: cd be && mkdir -p nodejs && cp -r node_modules nodejs/node_modules && zip -r nodejs.zip nodejs
         # if: ${{ (contains(github.event.head_commit.message, 'be/package.json') || contains(github.event.head_commit.message, 'be/yarn.lock')) }}
         shell: bash
-      - name: (변경사항이 있는 경우) Lambda Layer 업로드
-        run: aws lambda publish-layer-version --layer-name nodejs --zip-file fileb://be/nodejs.zip --compatible-runtimes nodejs12.x --region ap-northeast-2
+      - name: Layer 업로드
+        run: aws lambda publish-layer-version --layer-name chromeSide-lambdaLayer --zip-file fileb://be/nodejs.zip --compatible-runtimes nodejs12.x --region ap-northeast-2
+        # if: ${{ (contains(github.event.head_commit.message, 'be/package.json') || contains(github.event.head_commit.message, 'be/yarn.lock')) }}
+        shell: bash
+      - name: Layer의 가장 최신 버전을 변수에 저장
+        id: latest-layer-version
+        run: echo ::set-output name=VERSION::$(aws lambda list-layer-versions --layer-name chromeSide-lambdaLayer --region ap-northeast-2 --query 'LayerVersions[0].Version')
+        # if: ${{ (contains(github.event.head_commit.message, 'be/package.json') || contains(github.event.head_commit.message, 'be/yarn.lock')) }}
+        shell: bash
+      - name: Lambda에서 참조하고 있는 Layer 버전 변경
+        run: aws lambda update-function-configuration --function-name chromeSide-board-ConnectHandler2FFD52D8-uTN7lKb7paOp --layers arn:aws:lambda:ap-northeast-2:123456789012:layer:chromeSide-lambdaLayer:${{ steps.latest-layer-version.outputs.VERSION }} --region ap-northeast-2
         # if: ${{ (contains(github.event.head_commit.message, 'be/package.json') || contains(github.event.head_commit.message, 'be/yarn.lock')) }}
         shell: bash
