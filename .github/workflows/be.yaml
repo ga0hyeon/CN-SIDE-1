@@ -20,7 +20,7 @@ jobs:
   deploy:
     runs-on: ubuntu-20.04
     name: BE 빌드 및 배포
-    needs: install-aws-cli
+    needs: pre-deploy
     steps:
       - name: AWS Credentials 설정
         uses: aws-actions/configure-aws-credentials@v1
