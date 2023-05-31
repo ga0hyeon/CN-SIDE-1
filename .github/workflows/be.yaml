@@ -38,7 +38,7 @@ jobs:
         # if: ${{ (contains(github.event.head_commit.message, 'be/package.json') || contains(github.event.head_commit.message, 'be/yarn.lock')) }}
         shell: bash
       - name: Layer 업로드
-        run: aws lambda publish-layer-version --layer-name chromeSide-lambdaLayer --zip-file fileb://be/nodejs.zip --compatible-runtimes nodejs12.x --region ap-northeast-2
+        run: aws lambda publish-layer-version --layer-name chromeSide-lambdaLayer --zip-file fileb://be/nodejs.zip --compatible-runtimes nodejs14.x --region ap-northeast-2
         # if: ${{ (contains(github.event.head_commit.message, 'be/package.json') || contains(github.event.head_commit.message, 'be/yarn.lock')) }}
         shell: bash
       - name: Layer의 가장 최신 버전을 변수에 저장
